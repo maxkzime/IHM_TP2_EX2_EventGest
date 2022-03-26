@@ -5,16 +5,19 @@
 
 #include "areabutton.h"
 
+AreaButton::AreaButton()
+{}
 
-AreaButton::AreaButton(EveMan *evMan)
-{itsEvMan = evMan;}
-
-bool AreaButton::eve(QEvent *e)
+bool AreaButton::event(QEvent *e)
 {
     if(e->type() == QEvent::MouseButtonPress)
     {
         itsEvMan->calculatePerimeter();
         qDebug("clicked");
+        return true;
     }
     return QPushButton::event(e);
 }
+
+void AreaButton::setData(EventManager * evMan)
+{itsEvMan = evMan;}

@@ -5,11 +5,16 @@
 
 #include "widget.h"
 
+#include "eventmanager.h"
+#include "circle.h"
+#include "areabutton.h"
+
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
 {
     this->setWindowTitle("Cercle");
     QGridLayout * layout = new QGridLayout(this);
+    setLayout(layout);
 
     QLabel * lTitle = new QLabel();
     lTitle->setText("Veuillez saisir le diametre");
@@ -25,29 +30,28 @@ Widget::Widget(QWidget *parent)
     QLabel * lResult = new QLabel();
     layout->addWidget(lResult,3,0,1,2);
 
-    Circle *c = new Circle;
-    EveMan * gest = new EveMan(lResult, leField, c);
+    EventManager * gest = new EventManager(lResult, leField);
 
-    AreaButton * bPerimeter = new AreaButton(gest);
+    AreaButton * bPerimeter = new AreaButton();
+    bPerimeter->setData(gest);
     bPerimeter->setText("Calculer le perimetre");
     layout->addWidget(bPerimeter,2,0);
-
-
-    //    connect(bPerimeter, SIGNAL(clicked()), &gest, SLOT(calculatePerimeter));
-
-    //
-
-    //    EventManager m(lResult,leField,c);
-    //    connect(bPerimeter, &QPushButton::clicked,[lResult,leField](){
-    //        Circle c(leField->text().toDouble());
-    //        lResult->setText("Perimetre : "+QString::number(c.calculatePerimeter()));
-    //    });
-
 
     QPushButton * bArea = new QPushButton();
     bArea->setText("Calculer la surface");
     layout->addWidget(bArea,2,1);
 
+    connect(bPerimeter, SIGNAL(QEvent::MouseButtonPress), gest, SLOT(calculatePerimeter));
+
+    connect(bArea, &QPushButton::clicked,[gest,this,lResult,leField](){
+        if(leField->text().toDouble() > 0){
+            Circle c(leField->text().toDouble());
+            lResult->setText("Surface : "+QString::number(c.calculateArea()));
+        }else{
+            gest->itsAlert->information(this,QString("Alert"),QString("Diametre invalide"));
+            lResult->setText("Invalid diameter");
+        }
+    });
 
 }
 

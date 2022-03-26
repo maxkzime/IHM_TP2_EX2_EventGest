@@ -6,22 +6,24 @@
 #ifndef AREABUTTON_H
 #define AREABUTTON_H
 
+#include "eventmanager.h"
+
+#include <QObject>
 #include <QPushButton>
 #include <QEvent>
 
-#include "eventmanager.h"
-#include "widget.h"
 
 class AreaButton : public QPushButton
 {
     Q_OBJECT
 
 public:
-    AreaButton(EveMan * m);
-    bool eve(QEvent * e);
+    AreaButton();
+    bool event(QEvent * e) override;
+    void setData(EventManager  * m);
 
 private:
-    EveMan * itsEvMan;
+    EventManager * itsEvMan;
 
 };
 

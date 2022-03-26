@@ -18,7 +18,7 @@ public:
     double calculateArea();
 
 private:
-    const double PI = 3.314159265;
+    const double PI = 3.141592655359;
     double itsDiameter;
 
 };

@@ -13,10 +13,6 @@
 #include <QLineEdit>
 #include <QPushButton>
 
-#include "eventmanager.h"
-#include "circle.h"
-#include "areabutton.h"
-
 class Widget : public QWidget
 {
     Q_OBJECT

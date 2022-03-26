@@ -5,42 +5,39 @@
 
 
 #include "eventmanager.h"
+#include <QMessageBox>
 
-EveMan::EveMan(QLabel *aResult, QLineEdit *aField, Circle *aCircle)
-    : itsResult(aResult),itsField(aField), itsCircle(aCircle)
-{}
+EventManager::EventManager(QLabel *aResult, QLineEdit *aField)
+    : itsResult(aResult),itsField(aField)
+{
+    Circle *c = new Circle;
+    itsCircle = c;
+    QMessageBox * alert = new QMessageBox();
+    itsAlert = alert;
+}
 
 
-bool dIsValid(Circle *c,QLineEdit * field)
+bool dIsValid(Circle *c,QLineEdit * field, QMessageBox * itsAlert)
 {
     bool state = false;
     double d = field->text().toDouble();
-    if(d >= 0)
+    if(d > 0)
     {
         state = true;
         c->setDiameter(d);
     }
     else{
-        //QMessageBox * alert = new QMessageBox;
-        //alert->information(w,QString("Alert"),QString("Diametre invalide"));
+        itsAlert->information(field->parentWidget(),QString("Alert"),QString("Diametre invalide"));
     }
 
     return state;
 }
 
 
-void EveMan::calculatePerimeter()
+void EventManager::calculatePerimeter()
 {
-    if(dIsValid(itsCircle, itsField))
+    if(dIsValid(itsCircle, itsField, itsAlert))
         itsResult->setText("Perimetre : "+QString::number(itsCircle->calculatePerimeter()));
+    else
+        itsResult->setText("Invalid diameter");
 }
-
-
-void EveMan::calculateArea()
-{
-    if(dIsValid(itsCircle, itsField))
-        itsResult->setText("Surface : "+QString::number(itsCircle->calculateArea()));
-}
-
-
-
