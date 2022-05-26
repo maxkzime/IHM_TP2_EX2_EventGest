@@ -26,9 +26,8 @@ bool dIsValid(Circle *c,QLineEdit * field, QMessageBox * itsAlert)
         state = true;
         c->setDiameter(d);
     }
-    else{
+    else
         itsAlert->information(field->parentWidget(),QString("Alert"),QString("Diametre invalide"));
-    }
 
     return state;
 }

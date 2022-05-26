@@ -22,7 +22,7 @@ public:
 
     QLabel * lTitle;
     QLabel * lText;
-    QLineEdit *leField;
+    QLineEdit * leField;
     QLabel * lResult;
 };
 #endif // WIDGET_H
